@@ -18,10 +18,11 @@ export default function Home() {
 
   const resultados = useMemo(() => {
     try {
-      if (!montoTotal.trim()) return null
+      const montoStr = montoTotal.toString().trim()
+      if (!montoStr) return null
       
-      const monto = parseFloat(montoTotal)
-      const porcentajeActual = usandoPersonalizado ? parseFloat(porcentajePersonalizado) : porcentaje
+      const monto = parseFloat(montoStr.replace(',', '.')) || 0
+      const porcentajeActual = usandoPersonalizado ? parseFloat(porcentajePersonalizado.toString().replace(',', '.')) || 0 : porcentaje
       
       if (!monto || monto <= 0) {
         setError('Ingrese un monto válido mayor a cero')
@@ -33,8 +34,10 @@ export default function Home() {
         return null
       }
       
+      const numPersonas = parseInt(personas.toString()) || 1
+      
       setError('')
-      return calcularPropina(monto, porcentajeActual, personas)
+      return calcularPropina(monto, porcentajeActual, numPersonas)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error en el cálculo')
       return null
