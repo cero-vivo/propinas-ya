@@ -92,6 +92,7 @@ export default function Home() {
                 <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#666666' }} />
                 <input
                   type="number"
+                  inputMode="decimal"
                   step="0.01"
                   placeholder="0.00"
                   value={montoTotal}
@@ -139,6 +140,7 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <input
                   type="number"
+                  inputMode="decimal"
                   placeholder="Personalizado"
                   value={usandoPersonalizado ? porcentajePersonalizado : ''}
                   onChange={(e) => {
@@ -163,6 +165,7 @@ export default function Home() {
                 <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#666666' }} />
                 <input
                   type="number"
+                  inputMode="numeric"
                   min="1"
                   value={personas}
                   onChange={(e) => setPersonas(Math.max(1, parseInt(e.target.value) || 1))}
