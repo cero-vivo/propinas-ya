@@ -97,6 +97,7 @@ export default function Home() {
                   placeholder="0.00"
                   value={montoTotal}
                   onChange={(e) => setMontoTotal(e.target.value)}
+                  onBlur={(e) => setMontoTotal(e.target.value || '0')}
                   className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
                   style={{ 
                     borderColor: '#f25e54'
@@ -147,6 +148,9 @@ export default function Home() {
                     setPorcentajePersonalizado(e.target.value)
                     setUsandoPersonalizado(true)
                   }}
+                  onBlur={(e) => {
+                    setPorcentajePersonalizado(e.target.value || '0')
+                  }}
                   className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                   style={{ 
                     borderColor: '#f25e54',
@@ -168,7 +172,8 @@ export default function Home() {
                   inputMode="numeric"
                   min="1"
                   value={personas}
-                  onChange={(e) => setPersonas(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e) => setPersonas(parseInt(e.target.value) || 1)}
+                  onBlur={(e) => setPersonas(Math.max(1, parseInt(e.target.value) || 1))}
                   className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
                   style={{ 
                     borderColor: '#FFC93C'
@@ -223,11 +228,20 @@ export default function Home() {
                     </div>
                   )}
                   
-                  {personas === 1 && (
+                  {(personas === 1) && (
                     <div className="border-t pt-2">
                       <div className="flex justify-between">
                         <span className="font-medium" style={{ color: '#333333' }}>Total a pagar:</span>
-                        <span className="font-bold" style={{ color: '#4CAF50' }}>{formatCurrency(resultados.porPersona)}</span>
+                        <span className="font-bold" style={{ color: '#4CAF50' }}>{formatCurrency(resultados.totalConPropina)}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {personas === 0 && (
+                    <div className="border-t pt-2">
+                      <div className="flex justify-between">
+                        <span className="font-medium" style={{ color: '#333333' }}>Total a pagar (sin dividir):</span>
+                        <span className="font-bold" style={{ color: '#4CAF50' }}>{formatCurrency(resultados.totalConPropina)}</span>
                       </div>
                     </div>
                   )}
