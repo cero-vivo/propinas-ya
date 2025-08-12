@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { Calculator, Users, DollarSign, Percent, Heart } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import Image from 'next/image'
 import { DonationButton } from '@/components/donation-button'
 import { calcularPropina } from '@/lib/calculations'
 import { formatCurrency } from '@/lib/utils'
@@ -72,10 +73,13 @@ export default function Home() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <section className="text-center mb-8">
-          <img 
-            src="/propinasya.svg" 
-            alt="Propinas YA Logo" 
+          <Image
+            src="/propinasya.svg"
+            alt="Propinas YA Logo"
+            width={128}
+            height={128}
             className="h-16 sm:h-32 mx-auto mb-2"
+            priority
           />
         </section>
 
@@ -232,7 +236,7 @@ export default function Home() {
                   </div>
                   
                   {/* Desglose por persona */}
-                  {personas > 1 && (
+                  {parseInt(personas.toString()) > 1 && (
                     <div className="border-t pt-3 mt-3">
                       <h4 className="font-medium mb-2" style={{ color: '#333333' }}>Desglose por persona:</h4>
                       <div className="space-y-1 pl-2">
@@ -252,7 +256,7 @@ export default function Home() {
                     </div>
                   )}
                   
-                  {(personas === 1) && (
+                  {parseInt(personas.toString()) === 1 && (
                     <div className="border-t pt-2">
                       <div className="flex justify-between">
                         <span className="font-medium" style={{ color: '#333333' }}>Total a pagar:</span>
@@ -261,7 +265,7 @@ export default function Home() {
                     </div>
                   )}
                   
-                  {personas === 0 && (
+                  {parseInt(personas.toString()) === 0 && (
                     <div className="border-t pt-2">
                       <div className="flex justify-between">
                         <span className="font-medium" style={{ color: '#333333' }}>Total a pagar (sin dividir):</span>
