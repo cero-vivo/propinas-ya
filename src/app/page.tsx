@@ -7,10 +7,10 @@ import { calcularPropina } from '@/lib/calculations'
 import { formatCurrency } from '@/lib/utils'
 
 export default function Home() {
-  const [montoTotal, setMontoTotal] = useState<string>('')
+  const [montoTotal, setMontoTotal] = useState<string | number>('')
   const [porcentaje, setPorcentaje] = useState<number>(10)
-  const [personas, setPersonas] = useState<number>(1)
-  const [porcentajePersonalizado, setPorcentajePersonalizado] = useState<string>('')
+  const [personas, setPersonas] = useState<string | number>(1)
+  const [porcentajePersonalizado, setPorcentajePersonalizado] = useState<string | number>('')
   const [usandoPersonalizado, setUsandoPersonalizado] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
 
@@ -72,7 +72,7 @@ export default function Home() {
           <img 
             src="/propinasya.svg" 
             alt="Propinas YA Logo" 
-            className="h-16 sm:h-28 mx-auto mb-2"
+            className="h-16 sm:h-32 mx-auto mb-2"
           />
         </section>
 
@@ -91,18 +91,26 @@ export default function Home() {
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#666666' }} />
                 <input
-                  type="number"
-                  inputMode="decimal"
-                  step="0.01"
-                  placeholder="0.00"
-                  value={montoTotal}
-                  onChange={(e) => setMontoTotal(e.target.value)}
-                  onBlur={(e) => setMontoTotal(e.target.value || '0')}
-                  className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
-                  style={{ 
-                    borderColor: '#f25e54'
-                  }}
-                />
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="0.00"
+                    value={montoTotal === '' || montoTotal === 0 ? '' : montoTotal.toString()}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9.,]/g, '');
+                      const numValue = parseFloat(value.replace(',', '.')) || 0;
+                      setMontoTotal(numValue);
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value.replace(/[^0-9.,]/g, '');
+                      const numValue = parseFloat(value.replace(',', '.')) || 0;
+                      setMontoTotal(numValue);
+                    }}
+                    className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
+                    style={{ 
+                      borderColor: '#e5e7eb',
+                      color: '#333333'
+                    }}
+                  />
               </div>
             </div>
 
@@ -140,22 +148,27 @@ export default function Home() {
               {/* Campo personalizado */}
               <div className="flex items-center gap-2">
                 <input
-                  type="number"
-                  inputMode="decimal"
-                  placeholder="Personalizado"
-                  value={usandoPersonalizado ? porcentajePersonalizado : ''}
-                  onChange={(e) => {
-                    setPorcentajePersonalizado(e.target.value)
-                    setUsandoPersonalizado(true)
-                  }}
-                  onBlur={(e) => {
-                    setPorcentajePersonalizado(e.target.value || '0')
-                  }}
-                  className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
-                  style={{ 
-                    borderColor: '#f25e54',
-                  }}
-                />
+                    type="text"
+                    inputMode="decimal"
+                    placeholder="Personalizado"
+                    value={usandoPersonalizado ? (porcentajePersonalizado === 0 || porcentajePersonalizado === '' ? '' : porcentajePersonalizado.toString()) : ''}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9.,]/g, '');
+                      const numValue = parseFloat(value.replace(',', '.')) || 0;
+                      setPorcentajePersonalizado(numValue)
+                      setUsandoPersonalizado(true)
+                    }}
+                    onBlur={(e) => {
+                      const value = e.target.value.replace(/[^0-9.,]/g, '');
+                      const numValue = parseFloat(value.replace(',', '.')) || 0;
+                      setPorcentajePersonalizado(numValue)
+                    }}
+                    className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                    style={{ 
+                      borderColor: '#e5e7eb',
+                      color: '#333333'
+                    }}
+                  />
                 <span className="text-sm" style={{ color: '#666666' }}>%</span>
               </div>
             </div>
@@ -168,12 +181,20 @@ export default function Home() {
               <div className="relative">
                 <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#666666' }} />
                 <input
-                  type="number"
+                  type="text"
                   inputMode="numeric"
-                  min="1"
-                  value={personas}
-                  onChange={(e) => setPersonas(parseInt(e.target.value) || 1)}
-                  onBlur={(e) => setPersonas(Math.max(1, parseInt(e.target.value) || 1))}
+                  value={personas === 0 || personas === '0' ? '' : personas.toString()}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, '');
+                    const numValue = parseInt(value) || 0;
+                    setPersonas(numValue);
+                  }}
+                  onBlur={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, '');
+                    const numValue = parseInt(value) || 1;
+                    setPersonas(Math.max(1, numValue));
+                  }}
+                  placeholder="1"
                   className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2"
                   style={{ 
                     borderColor: '#FFC93C'
