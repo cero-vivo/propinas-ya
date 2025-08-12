@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Calculator, Users, DollarSign, Percent, Heart } from 'lucide-react'
 import { DonationButton } from '@/components/donation-button'
 import { calcularPropina } from '@/lib/calculations'
+import { formatCurrency } from '@/lib/utils'
 
 export default function Home() {
   const [montoTotal, setMontoTotal] = useState<string>('')
@@ -187,15 +188,15 @@ export default function Home() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span style={{ color: '#666666' }}>Monto original:</span>
-                    <span className="font-medium">${resultados.montoTotal.toFixed(2)}</span>
+                    <span className="font-medium">{formatCurrency(resultados.montoTotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span style={{ color: '#666666' }}>Propina ({resultados.porcentajePropina}%):</span>
-                    <span className="font-medium" style={{ color: '#f25e54' }}>${resultados.montoPropina.toFixed(2)}</span>
+                    <span className="font-medium" style={{ color: '#f25e54' }}>{formatCurrency(resultados.montoPropina)}</span>
                   </div>
                   <div className="flex justify-between border-t pt-2">
                     <span className="font-medium" style={{ color: '#333333' }}>Total a pagar:</span>
-                    <span className="font-bold" style={{ color: '#f25e54' }}>${resultados.totalConPropina.toFixed(2)}</span>
+                    <span className="font-bold" style={{ color: '#f25e54' }}>{formatCurrency(resultados.totalConPropina)}</span>
                   </div>
                   
                   {/* Desglose por persona */}
@@ -205,15 +206,15 @@ export default function Home() {
                       <div className="space-y-1 pl-2">
                         <div className="flex justify-between text-xs">
                           <span style={{ color: '#666666' }}>Monto base por persona:</span>
-                          <span className="font-medium">${resultados.montoBasePorPersona.toFixed(2)}</span>
+                          <span className="font-medium">{formatCurrency(resultados.montoBasePorPersona)}</span>
                         </div>
                         <div className="flex justify-between text-xs">
                           <span style={{ color: '#666666' }}>Propina por persona:</span>
-                          <span className="font-medium" style={{ color: '#f25e54' }}>${resultados.propinaPorPersona.toFixed(2)}</span>
+                          <span className="font-medium" style={{ color: '#f25e54' }}>{formatCurrency(resultados.propinaPorPersona)}</span>
                         </div>
                         <div className="flex justify-between text-xs font-bold">
                           <span style={{ color: '#333333' }}>Total por persona:</span>
-                          <span style={{ color: '#4CAF50' }}>${resultados.porPersona.toFixed(2)}</span>
+                          <span style={{ color: '#4CAF50' }}>{formatCurrency(resultados.porPersona)}</span>
                         </div>
                       </div>
                     </div>
@@ -223,7 +224,7 @@ export default function Home() {
                     <div className="border-t pt-2">
                       <div className="flex justify-between">
                         <span className="font-medium" style={{ color: '#333333' }}>Total a pagar:</span>
-                        <span className="font-bold" style={{ color: '#4CAF50' }}>${resultados.porPersona.toFixed(2)}</span>
+                        <span className="font-bold" style={{ color: '#4CAF50' }}>{formatCurrency(resultados.porPersona)}</span>
                       </div>
                     </div>
                   )}
